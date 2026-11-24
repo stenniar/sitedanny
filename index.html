@@ -7,6 +7,12 @@
 <meta name="description" content="Consultoria comercial que começa por um diagnóstico completo e (re)estrutura os processos de vendas da sua empresa, do primeiro contato ao fechamento. Natal/RN e todo o Brasil. Agende seu diagnóstico.">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="https://www.dannyaraujo.com.br/">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="240x256" href="assets/favicon.png">
+<meta name="site-politica" content="politica-de-privacidade/">
+<script src="assets/consentimento.js" defer></script>
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
 <meta name="theme-color" content="#0C1F27">
 <meta name="author" content="Danielly Araújo">
 <meta name="geo.region" content="BR-RN">
@@ -17,7 +23,7 @@
 <meta property="og:url" content="https://www.dannyaraujo.com.br/">
 <meta property="og:title" content="(Re)estruturação de processos comerciais | Danny Araújo">
 <meta property="og:description" content="Diagnóstico comercial completo e (re)estruturação do processo de vendas para a demanda virar faturamento. Faça o autodiagnóstico grátis e agende.">
-<meta property="og:image" content="https://www.dannyaraujo.com.br/assets/og-image.jpg">
+<meta property="og:image" content="https://www.dannyaraujo.com.br/assets/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -587,6 +593,7 @@ button, input, select { font: inherit; color: inherit; }
   aspect-ratio: 4 / 4.55;
 }
 .palco-canvas-wrap canvas { width: 100%; height: 100%; }
+.palco-canvas-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 15%; }
 .chip-glass {
   position: absolute;
   z-index: 3;
@@ -1368,7 +1375,7 @@ button, input, select { font: inherit; color: inherit; }
 }
 .reserva h3 { font: 700 24px/1.15 var(--sans); letter-spacing: -.02em; }
 .com-quem { display: flex; align-items: center; gap: 14px; padding-bottom: 16px; border-bottom: 1px solid var(--ln-e); }
-.com-quem canvas { width: 56px; height: 56px; border-radius: 50%; border: 2px solid var(--ouro); flex: none; }
+.com-quem canvas, .com-quem img { width: 56px; height: 56px; border-radius: 50%; border: 2px solid var(--ouro); flex: none; object-fit: cover; object-position: 50% 20%; }
 .com-quem p { font-size: 14.5px; line-height: 1.45; color: var(--suave-e); }
 .com-quem b { color: #fff; }
 .reserva .esc { font: italic 500 19px var(--serif); color: var(--ouro-claro); min-height: 1.4em; }
@@ -1414,6 +1421,7 @@ button, input, select { font: inherit; color: inherit; }
   margin: 0;
 }
 .retrato canvas { width: 100%; height: 100%; }
+.retrato img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; }
 .retrato .leg {
   position: absolute;
   left: 14px; right: 14px; bottom: 14px;
@@ -1721,7 +1729,6 @@ button, input, select { font: inherit; color: inherit; }
 .consent .btn { min-height: 44px; padding: 8px 16px; font-size: 13.5px; }
 
 .reveal {
-  opacity: 0;
   transform: translateY(20px);
   transition: opacity var(--dur-slow) var(--ease-imogen), transform var(--dur-slow) var(--ease-imogen);
 }
@@ -1782,6 +1789,12 @@ button, input, select { font: inherit; color: inherit; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .reveal { opacity: 1; transform: none; }
 }
+.lgpd-rodape { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px 24px; padding-block: 16px calc(20px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid rgba(237, 241, 242, .12); font-size: 12.5px; line-height: 1.55; color: rgba(237, 241, 242, .62); }
+.lgpd-rodape p { max-width: 70ch; margin: 0; }
+.lgpd-rodape nav { display: flex; flex-wrap: wrap; gap: 6px 16px; }
+.lgpd-rodape a, .lgpd-rodape button { color: rgba(237, 241, 242, .82); text-decoration: underline; text-underline-offset: 3px; background: none; border: 0; padding: 0; font: inherit; cursor: pointer; }
+.lgpd-rodape a:hover, .lgpd-rodape button:hover { color: #CDAA78; }
+@media (max-width: 760px) { .lgpd-rodape { padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px)); } }
 </style>
 </head>
 <body>
@@ -1839,7 +1852,7 @@ button, input, select { font: inherit; color: inherit; }
         <a class="btn linha" href="#ferramentas"><span>Fazer autodiagnóstico</span><span class="seta" aria-hidden="true">↓</span></a>
       </div>
       <div class="prova-hero">
-        <div class="prova-item"><small>Atuação</small><b>Nível <em>Sênior</em></b></div>
+        <div class="prova-item"><small>Experiência</small><b>+15 <em>anos</em></b></div>
         <div class="prova-item"><small>Operações</small><b>B2B <em>&amp;</em> B2C</b></div>
         <div class="prova-item"><small>Resultado real</small><b>300% <em>da meta</em></b></div>
       </div>
@@ -1847,9 +1860,9 @@ button, input, select { font: inherit; color: inherit; }
 
     <div class="palco-hero" id="palco-hero">
       <div class="palco-canvas-wrap">
-        <canvas id="canvas-hero" width="640" height="728" aria-label="Retrato editorial de Danny Araújo com símbolo arquitetônico da marca"></canvas>
+        <img src="assets/fotos/danny-hero.jpg" alt="Danny Araújo, consultora comercial em Natal/RN" width="1000" height="1371" fetchpriority="high">
       </div>
-      <div class="chip-glass c-top"><small>Conversão média</small><b>8% <i>→</i> 12%</b></div>
+      <div class="chip-glass c-top"><small>Conversão · exemplo</small><b>8% <i>→</i> 12%</b></div>
       <div class="chip-glass c-mid"><small>Primeira resposta</small><b>&lt; 15 <i>min</i></b></div>
       <div class="chip-glass c-bot">
         <div><small>Régua de follow-up</small></div>
@@ -1873,7 +1886,7 @@ button, input, select { font: inherit; color: inherit; }
     <div class="sec-cab reveal">
       <span class="eyebrow">01 · Sinais de alerta</span>
       <h2>Quantos destes sinais existem na sua <em>operação?</em></h2>
-      <p class="lead">Toque nos sinais que você reconhece na rotina comercial da sua empresa.</p>
+      <p class="lead">Toque nos sinais que aparecem na rotina comercial da sua empresa.</p>
     </div>
     <div class="sinais" id="sinais-lista">
       <button class="sinal reveal" type="button" aria-pressed="false"><span class="tick"></span><small>01</small><b>Tem lead chegando, mas pouca venda fechando.</b></button>
@@ -1885,7 +1898,7 @@ button, input, select { font: inherit; color: inherit; }
     </div>
     <div class="veredito reveal" aria-live="polite">
       <div class="cont"><b id="s-cont">0</b><span> / 6</span></div>
-      <p id="s-txt">Toque nos sinais que você reconhece. <b>Cada um aponta para um processo comercial que pode ser (re)estruturado.</b></p>
+      <p id="s-txt"><b>Cada sinal aponta para um processo comercial que pode ser (re)estruturado.</b></p>
       <a class="btn navy" href="#agenda"><span>Agendar diagnóstico</span><span class="seta" aria-hidden="true">→</span></a>
     </div>
   </div>
@@ -1945,10 +1958,10 @@ button, input, select { font: inherit; color: inherit; }
       <div class="fit-card sim">
         <h3>Para quem é este trabalho</h3>
         <ul>
-          <li><strong>Empresas que já têm demanda e equipe comercial</strong>, mas bateram em um teto de faturamento e precisam destravar conversão.</li>
-          <li><strong>Operações B2B e B2C</strong> de saúde, serviços, energia, tecnologia e varejo, em Natal/RN ou em todo o Brasil.</li>
-          <li><strong>Lideranças que querem implantar processo real</strong> e parar de depender de sorte ou improviso.</li>
-          <li><strong>Empresas sem nenhum desses fatores</strong> que querem <strong>"começar certo"</strong> desde a base, com processo e indicadores desde o início.</li>
+          <li><span><strong>Empresas que já têm demanda e equipe comercial</strong>, mas bateram em um teto de faturamento e precisam destravar conversão.</span></li>
+          <li><span><strong>Operações B2B e B2C</strong> de saúde, serviços, energia, tecnologia e varejo, em Natal/RN ou em todo o Brasil.</span></li>
+          <li><span><strong>Lideranças que querem implantar processo real</strong> e parar de depender de sorte ou improviso.</span></li>
+          <li><span><strong>Empresas que estão começando</strong> e querem estruturar o comercial certo desde a base, com processo e indicadores.</span></li>
         </ul>
       </div>
       <div class="fit-card nao">
@@ -2005,12 +2018,12 @@ button, input, select { font: inherit; color: inherit; }
     </div>
     <div class="cases">
       <article class="case c1 reveal">
-        <div class="tag"><span>Saúde · AmorSaúde Brasil</span><span>60 dias</span></div>
+        <div class="tag"><span>Saúde · Rede de clínicas · Natal/RN</span><span>60 dias</span></div>
         <div class="v">300<small>% da meta</small></div>
         <h3>(Re)estruturação comercial e operacional da Odontologia</h3>
         <div class="gargalo-tag"><strong>Gargalo inicial:</strong> agendas desconexas, triagem reativa e baixa conversão em planos de maior ticket.</div>
         <ul>
-          <li>Faturamento de R$ 40 mil para R$ 97 mil (+142,5%) e 35% de conversão</li>
+          <li>Faturamento de R$ 40 mil para R$ 97 mil (+142%) e 35% de conversão</li>
           <li>Planos de crédito de R$ 0 para R$ 35 mil</li>
           <li>De 6 para 40 pacientes por dia, com zero faltas, após integrar as triagens</li>
           <li>Liderança de 33 pessoas: 13 diretas e 20 indiretas</li>
@@ -2212,7 +2225,7 @@ button, input, select { font: inherit; color: inherit; }
 
       <form class="reserva" id="reserva" novalidate>
         <div class="com-quem">
-          <canvas id="canvas-avatar" width="112" height="112" aria-hidden="true"></canvas>
+          <img src="assets/fotos/danny-rosto.jpg" alt="" width="56" height="56" loading="lazy">
           <p>Você conversa <b>direto com a Danny</b>, sem intermediários.</p>
         </div>
         <h3>Horário escolhido</h3>
@@ -2245,19 +2258,19 @@ button, input, select { font: inherit; color: inherit; }
     </div>
     <div class="sobre">
       <figure class="retrato reveal">
-        <canvas id="canvas-sobre" width="600" height="720" aria-label="Retrato editorial de Danny Araújo em Natal/RN"></canvas>
-        <figcaption class="leg"><span>Danny Araújo · Nível Sênior</span><span>Natal/RN</span></figcaption>
+        <img src="assets/fotos/danny-sobre.jpg" alt="Danielly Araújo, a Danny, diretora comercial e consultora" width="900" height="1489" loading="lazy">
+        <figcaption class="leg"><span>Danny Araújo · Diretora Comercial</span><span>Natal/RN</span></figcaption>
       </figure>
       <div class="bio reveal">
         <p><strong>Diretora Comercial na Chama Cine e consultora de alta performance.</strong> Atuo em operações B2B e B2C de saúde, energia, tecnologia e serviços, transformando processos complexos em conversão previsível.</p>
         <p>Certificada em <strong>Google Data Analytics</strong> e graduanda em Sistemas para Internet no IFRN. Estruturo dashboards, automações e rotinas para que a gestão enxergue o funil e o ROI com clareza.</p>
         <p>Autora da newsletter e do projeto literário <strong>A Arquitetura do Acaso</strong>, sobre gestão, negócios e growth para quem constrói sorte com método.</p>
         <ol class="obras">
-          <li><span class="nivel-badge">Nível Sênior</span><div><strong>Chama Cine — Diretora Comercial</strong><span class="desc-exp">Growth e expansão B2B de agência de audiovisual, tecnologia e performance</span></div></li>
-          <li><span class="nivel-badge">Nível Sênior</span><div><strong>AmorSaúde Brasil — Liderança Comercial e Operacional</strong><span class="desc-exp">(Re)estruturação comercial, processos e gestão de equipe na odontologia</span></div></li>
-          <li><span class="nivel-badge">Nível Sênior</span><div><strong>Facile Soluções em Energia — Consultoria Comercial</strong><span class="desc-exp">Diagnóstico e soluções de eficiência energética para clientes B2B e B2C</span></div></li>
-          <li><span class="nivel-badge">Nível Sênior</span><div><strong>Webnize — Coproprietária e Operação Digital</strong><span class="desc-exp">Estruturação digital, posicionamento e produtos para pequenos negócios</span></div></li>
-          <li><span class="nivel-badge">Nível Sênior</span><div><strong>Televi Mobile, Groupon, Boavista e MDA — Operações Comerciais</strong><span class="desc-exp">Gestão comercial, retenção, relacionamento e expansão de receita</span></div></li>
+          <li><span class="nivel-badge">2026 · hoje</span><div><strong>Chama Cine — Diretora Comercial</strong><span class="desc-exp">Growth e expansão B2B de agência de audiovisual, tecnologia e performance</span></div></li>
+          <li><span class="nivel-badge">2026</span><div><strong>Rede de clínicas de saúde — Liderança Comercial e Operacional</strong><span class="desc-exp">(Re)estruturação comercial, processos e gestão de equipe na odontologia</span></div></li>
+          <li><span class="nivel-badge">2022 – 2026</span><div><strong>Facile Soluções em Energia — Consultoria Comercial</strong><span class="desc-exp">Diagnóstico e soluções de eficiência energética para clientes B2B e B2C</span></div></li>
+          <li><span class="nivel-badge">2018 – 2024</span><div><strong>Webnize — Coproprietária e Operação Digital</strong><span class="desc-exp">Estruturação digital, posicionamento e produtos para pequenos negócios</span></div></li>
+          <li><span class="nivel-badge">2011 – 2018</span><div><strong>Televi Mobile, Groupon, Boavista e MDA — Operações Comerciais</strong><span class="desc-exp">Gestão comercial, retenção, relacionamento e expansão de receita</span></div></li>
         </ol>
       </div>
     </div>
@@ -2311,7 +2324,7 @@ button, input, select { font: inherit; color: inherit; }
         <div class="corpo-m"><p>Encontre vazamentos invisíveis antes de investir R$ 1 a mais em tráfego ou equipe.</p><span>Abrir 5 perguntas &amp; PDF <i>↗</i></span></div>
       </button>
       <button class="mat esc reveal" type="button" data-modal="estudo">
-        <div class="topo-m"><small>Estudo de caso</small><b>Faturamento <em>+150%</em> em 60 dias</b></div>
+        <div class="topo-m"><small>Estudo de caso</small><b>Faturamento <em>+142%</em> em 60 dias</b></div>
         <div class="corpo-m"><p>O que acontece quando o improviso dá lugar a processos, equipe e dados.</p><span>Abrir estudo de caso &amp; PDF <i>↗</i></span></div>
       </button>
     </div>
@@ -2352,7 +2365,8 @@ button, input, select { font: inherit; color: inherit; }
       </div>
       <div class="contatos">
         <a data-wa="Oi Danny! Vim pelo site." href="https://wa.me/5584974005115" target="_blank" rel="noopener"><small>WhatsApp</small><b>(84) 9 7400-5115</b><i aria-hidden="true">→</i></a>
-        <a href="https://www.instagram.com/bernardo_consultoria/" target="_blank" rel="noopener"><small>Contábil</small><b>Bernardo Consultoria (@bernardo_consultoria)</b><i aria-hidden="true">→</i></a>
+        <a href="https://www.instagram.com/stenniar/" target="_blank" rel="noopener"><small>Instagram</small><b>@stenniar</b><i aria-hidden="true">→</i></a>
+        <a href="https://whatsapp.com/channel/0029VbDS742JZg4DrIH8VP1b" target="_blank" rel="noopener"><small>Canal VIP</small><b>Arquitetura da Gestão</b><i aria-hidden="true">→</i></a>
         <a href="https://www.linkedin.com/in/stenniar" target="_blank" rel="noopener"><small>LinkedIn</small><b>in/stenniar</b><i aria-hidden="true">→</i></a>
       </div>
     </div>
@@ -2364,7 +2378,16 @@ button, input, select { font: inherit; color: inherit; }
   <div class="wrap topo-rodape">
     <span>danny araujo · natal/rn</span>
     <span style="letter-spacing:.18em;font-weight:600;color:var(--creme)">DANNY ARAUJO · CONSULTORIA COMERCIAL</span>
-    <a href="https://www.dannyaraujo.com.br" target="_blank" rel="noopener">www.dannyaraujo.com.br · © 2026</a>
+    <span><a href="https://www.instagram.com/stenniar/" target="_blank" rel="noopener">Instagram</a> · <a href="https://www.linkedin.com/in/stenniar" target="_blank" rel="noopener">LinkedIn</a> · <a href="https://whatsapp.com/channel/0029VbDS742JZg4DrIH8VP1b" target="_blank" rel="noopener">Canal VIP</a> · © 2026</span>
+  </div>
+  <div class="wrap lgpd-rodape">
+    <p>60.953.705 Danielly Stennia de Lima Araujo · CNPJ 60.953.705/0001-55 · Natal/RN. Tratamos dados pessoais conforme a LGPD (Lei 13.709/2018). Encarregada de dados: Danielly Araújo · <a href="mailto:contato@dannyaraujo.com.br">contato@dannyaraujo.com.br</a>.</p>
+    <nav aria-label="Privacidade e acesso">
+      <a href="politica-de-privacidade/">Política de privacidade</a>
+      <a href="politica-de-privacidade/#lgpd">Seus direitos (LGPD)</a>
+      <button type="button" data-cookies>Preferências de cookies</button>
+      <a href="https://accounts.zoho.com/signin?service_language=pt&amp;servicename=VirtualOffice&amp;signupurl=https://www.zoho.com/mail/signup.html&amp;serviceurl=https://mail.zoho.com" target="_blank" rel="noopener">Acessar e-mail</a>
+    </nav>
   </div>
 </footer>
 
@@ -2555,9 +2578,7 @@ button, input, select { font: inherit; color: inherit; }
     desenharSimboloMarca(ctx, 32, 34, 18, 5);
   }
 
-  desenharArteHero();
-  desenharArteSobre();
-  desenharAvatar();
+  // Fotos reais substituíram os desenhos em canvas.
 
   /* ------------------------------------------------------------------------
      Menu Mobile, Parallax Suave do Hero & Progresso
@@ -2619,7 +2640,7 @@ button, input, select { font: inherit; color: inherit; }
      ------------------------------------------------------------------------ */
   var sinais = document.querySelectorAll('.sinal');
   var frases = [
-    'Toque nos sinais que você reconhece. <b>Cada um aponta para um processo comercial que pode ser (re)estruturado.</b>',
+    '<b>Cada sinal aponta para um processo comercial que pode ser (re)estruturado.</b>',
     'Um sinal já indica <b>receita escapando</b> em alguma etapa do funil.',
     'Dois sinais: <b>vale mapear o funil</b> antes de investir mais em marketing ou equipe.',
     'Três sinais: o problema é de <b>processo, não de esforço</b>. Um diagnóstico mostra por onde começar.',
@@ -2880,7 +2901,7 @@ button, input, select { font: inherit; color: inherit; }
             '</ul>'
     },
     estudo: {
-      titulo: 'Estudo de Caso: Faturamento +150% em 60 Dias',
+      titulo: 'Estudo de Caso: Faturamento +142% em 60 Dias',
       pdf: 'materiais/estudo-de-caso-150.pdf',
       html: '<p><strong>Cenário:</strong> Operação de serviços com demanda real e equipe ativa, mas com agendas desconexas, atendimento reativo e baixa conversão nos planos de maior ticket.</p>' +
             '<ul>' +
@@ -2949,27 +2970,7 @@ button, input, select { font: inherit; color: inherit; }
     if (ORIGEM) trackEvento('origem_visita', { origem: ORIGEM });
   }
 
-  if (CONFIG.analytics.ga4 || CONFIG.analytics.metaPixel) {
-    var escolha = null;
-    try { escolha = localStorage.getItem('consentimento_danny'); } catch (e) {}
-    if (escolha === 'sim') {
-      carregaAnalytics();
-    } else if (!escolha) {
-      var bar = document.createElement('div');
-      bar.className = 'consent';
-      bar.setAttribute('role', 'dialog');
-      bar.setAttribute('aria-label', 'Consentimento de cookies');
-      bar.innerHTML = '<p>Usamos cookies de medição para entender conversões e melhorar o site. Você aceita?</p><button type="button" class="btn ouro" data-c="sim">Aceitar</button><button type="button" class="btn linha" data-c="nao" style="color:var(--gelo);border-color:rgba(237,241,242,.5)">Recusar</button>';
-      bar.addEventListener('click', function (e) {
-        var b = e.target.closest('[data-c]');
-        if (!b) return;
-        try { localStorage.setItem('consentimento_danny', b.dataset.c); } catch (x) {}
-        if (b.dataset.c === 'sim') carregaAnalytics();
-        bar.remove();
-      });
-      document.body.appendChild(bar);
-    }
-  }
+  // Consentimento e carregamento de medição: assets/consentimento.js
 
   document.addEventListener('click', function (e) {
     var a = e.target.closest('a');

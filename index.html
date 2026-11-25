@@ -2749,11 +2749,11 @@ button, input, select { font: inherit; color: inherit; }
   function $(id) { return document.getElementById(id); }
   function escapeHtml(str) {
     return String(str == null ? '' : str)
-      .replace(/&/g, '&')
-      .replace(/</g, '<')
-      .replace(/>/g, '>')
-      .replace(/"/g, '"')
-      .replace(/'/g, ''');
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
   }
   function supabaseBaseUrl() {
     return String(CONFIG.supabaseUrl || '')

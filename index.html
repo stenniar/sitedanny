@@ -2571,7 +2571,7 @@ button, input, select { font: inherit; color: inherit; }
               <input type="tel" id="diag-wa-lead" placeholder="WhatsApp com DDD *" autocomplete="tel" inputmode="tel" required>
             </div>
             <input type="text" id="diag-empresa" class="lead-empresa" placeholder="Empresa (opcional)" autocomplete="organization">
-            <label class="lead-consent"><input type="checkbox" id="diag-ok" required><span>Aceito receber o diagnóstico e contatos da Danny pelo WhatsApp. Posso sair quando quiser. <a href="politica-de-privacidade/" target="_blank" rel="noopener">Privacidade</a></span></label>
+            <label class="lead-consent"><input type="checkbox" id="diag-ok" required><span>Aceito receber o diagnóstico e contatos da Danny pelo WhatsApp. Posso sair quando quiser. Ao enviar, o seu WhatsApp abre com a mensagem pronta. <a href="politica-de-privacidade/" target="_blank" rel="noopener">Privacidade</a></span></label>
             <p class="lead-erro" id="diag-erro" role="alert"></p>
             <button class="btn navy" type="submit" id="diag-enviar"><span>Receber meu diagnóstico no WhatsApp</span><span class="seta" aria-hidden="true">→</span></button>
           </form>
@@ -2924,6 +2924,9 @@ button, input, select { font: inherit; color: inherit; }
 (function () {
   var CONFIG = {
     whatsapp: '5584974005115',
+    // Número do WhatsApp oficial (Meta) que envia os diagnósticos. Só números, com 55.
+    // Vazio = o pedido vai direto para o WhatsApp da Danny, com o resultado escrito.
+    whatsappDiagnostico: '',
     supabaseUrl: 'https://lebvoxferenmncuddkhs.supabase.co/rest/v1/',
     supabaseAnonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxlYnZveGZlcmVubW5jdWRka2hzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTU2MzE4MjUsImV4cCI6MjExMTIwNzgyNX0.YINEQ9ZfuLhFg7ikOYjgvUng7bRfkPbomq1TUWIYfag',
     analytics: {
@@ -3301,20 +3304,29 @@ button, input, select { font: inherit; color: inherit; }
     $(prefixo + '-erro').textContent = erro;
     return erro ? null : { nome: nome.value.trim(), whatsapp: whats };
   }
-  function mostraSucesso(prefixo, lead, res, msgFallback) {
+  function novoCodigo() {
+    var a = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789', c = '';
+    for (var i = 0; i < 6; i++) c += a.charAt(Math.floor(Math.random() * a.length));
+    return c;
+  }
+  function linkPedido(codigo, msgFallback, nome) {
+    if (CONFIG.whatsappDiagnostico) {
+      return 'https://wa.me/' + CONFIG.whatsappDiagnostico + '?text=' +
+        encodeURIComponent('Oi! Sou ' + nome + ' e quero receber meu diagnóstico. Código: ' + codigo);
+    }
+    return wa('Oi Danny! Sou ' + nome + '. ' + msgFallback);
+  }
+  function mostraSucesso(prefixo, lead, link) {
     var box = $(prefixo + '-ok-box');
-    var enviado = res && res.ok && res.whatsapp_enviado;
     var primeiro = lead.nome.split(' ')[0];
     box.innerHTML =
-      '<b class="tit">' + (enviado ? 'Pronto, ' + escapeHtml(primeiro) + '! Confira o seu WhatsApp.' : 'Recebi, ' + escapeHtml(primeiro) + '!') + '</b>' +
-      '<span>' + (enviado
-        ? 'Enviei o diagnóstico para <b>' + formataWhats(lead.whatsapp) + '</b>. Se quiser, já escolha um horário para a conversa gratuita de 45 minutos.'
-        : 'Vou enviar o seu diagnóstico para <b>' + formataWhats(lead.whatsapp) + '</b> em breve. Para receber agora, toque em "Receber agora".') + '</span>' +
+      '<b class="tit">Falta só um toque, ' + escapeHtml(primeiro) + '!</b>' +
+      '<span>Abri o seu WhatsApp com a mensagem pronta. <b>Toque em enviar</b> e ' + (CONFIG.whatsappDiagnostico ? 'o diagnóstico chega em seguida, nessa mesma conversa.' : 'eu te respondo com o diagnóstico nessa mesma conversa.') + '</span>' +
       '<div class="acoes-ok">' +
-        '<a class="btn ouro" href="#agenda"><span>Agendar conversa gratuita</span><span class="seta" aria-hidden="true">→</span></a>' +
-        (enviado ? '' : '<a class="btn linha" href="' + wa(msgFallback) + '" target="_blank" rel="noopener"><span>Receber agora</span></a>') +
+        '<a class="btn ouro" href="' + link + '" target="_blank" rel="noopener"><span>Abrir o WhatsApp de novo</span><span class="seta" aria-hidden="true">→</span></a>' +
+        '<a class="btn linha" href="#agenda"><span>Agendar conversa gratuita</span></a>' +
       '</div>' +
-      '<small>Número errado? <a href="#" data-refazer="' + prefixo + '">Corrigir</a></small>';
+      '<small>Quer corrigir algo? <a href="#" data-refazer="' + prefixo + '">Voltar</a></small>';
     $(prefixo + '-form').hidden = true;
     box.hidden = false;
     if ($('r-nome') && !$('r-nome').value) $('r-nome').value = lead.nome;
@@ -3332,20 +3344,23 @@ button, input, select { font: inherit; color: inherit; }
   function enviaLead(prefixo, payload, msgFallback, evento) {
     var lead = validaLead(prefixo);
     if (!lead) return;
-    var bt = $(prefixo + '-enviar'), txt = bt.querySelector('span');
-    var original = txt.textContent;
-    bt.disabled = true; txt.textContent = 'Enviando...';
+    var codigo = novoCodigo();
+    var link = linkPedido(codigo, msgFallback, lead.nome);
     trackEvento(evento, {});
+    // Grava o lead (com o código) em segundo plano
     salvarNoSupabase(Object.assign({
       nome: lead.nome,
       whatsapp: lead.whatsapp,
       empresa: ($(prefixo + '-empresa') && $(prefixo + '-empresa').value.trim()) || null,
       consentimento: true,
+      codigo: codigo,
       pagina: location.href.split('#')[0]
-    }, payload)).then(function (res) {
-      bt.disabled = false; txt.textContent = original;
-      mostraSucesso(prefixo, lead, res, 'Oi Danny! Sou ' + lead.nome + '. ' + msgFallback);
-    });
+    }, payload));
+    // Abre o WhatsApp já no clique (navegadores bloqueiam se for depois)
+    var janela = null;
+    try { janela = window.open(link, '_blank'); if (janela) janela.opener = null; } catch (err) {}
+    mostraSucesso(prefixo, lead, link);
+    if (!janela && /Android|iPhone|iPad/i.test(navigator.userAgent)) location.href = link;
   }
 
   $('diag-form').addEventListener('submit', function (e) {

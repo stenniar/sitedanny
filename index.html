@@ -1662,7 +1662,12 @@ button, input, select { font: inherit; color: inherit; }
 /* ==========================================================================
    7. SOBRE & LIVROS
    ========================================================================== */
-.sobre { display: grid; grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr); gap: clamp(32px, 5vw, 72px); align-items: start; }
+.sobre { display: grid; grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr); gap: clamp(32px, 5vw, 72px); align-items: center; }
+.bio-numeros { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 26px; }
+.bio-numeros div { border-radius: var(--radius-card); border: 1px solid var(--ln-forte); background: var(--branco-quente); padding: 16px 16px 14px; display: grid; gap: 4px; }
+.bio-numeros b { font: 700 26px/1 var(--sans); letter-spacing: -.02em; color: var(--navy); }
+.bio-numeros span { font-size: 13.5px; line-height: 1.4; color: var(--suave); }
+@media (max-width: 560px) { .bio-numeros { grid-template-columns: minmax(0, 1fr); } }
 .retrato {
   position: relative;
   border-radius: var(--radius-bento);
@@ -1847,6 +1852,9 @@ button, input, select { font: inherit; color: inherit; }
 .edicao p { font-size: 15px; line-height: 1.6; color: var(--suave); }
 .edicao span { margin-top: auto; font-size: 14px; font-weight: 700; color: var(--tinta); }
 
+.faq-layout { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(28px, 5vw, 72px); align-items: start; }
+.faq-layout .sec-cab { position: sticky; top: 110px; margin-bottom: 0; }
+@media (max-width: 1080px) { .faq-layout { grid-template-columns: minmax(0, 1fr); } .faq-layout .sec-cab { position: static; } }
 .faq { max-width: 920px; border-top: 1px solid var(--ln-e); }
 .faq details { border-bottom: 1px solid var(--ln-e); }
 .faq summary {
@@ -1855,9 +1863,9 @@ button, input, select { font: inherit; color: inherit; }
   justify-content: space-between;
   align-items: center;
   gap: 20px;
-  padding: 22px 0;
+  padding: 15px 0;
   cursor: pointer;
-  font: 600 clamp(18px, 1.9vw, 21px)/1.35 var(--sans);
+  font: 600 clamp(16px, 1.35vw, 17.5px)/1.4 var(--sans);
 }
 .faq summary::-webkit-details-marker { display: none; }
 .faq summary::after {
@@ -1873,10 +1881,11 @@ button, input, select { font: inherit; color: inherit; }
   flex: none;
 }
 .faq details[open] summary::after { transform: rotate(45deg); background: rgba(205, 170, 120, .16); }
-.faq details p { padding: 0 0 24px; font-size: 16.5px; line-height: 1.72; color: var(--suave-e); max-width: 66ch; }
+.faq details p { padding: 0 0 18px; font-size: 15.5px; line-height: 1.65; color: var(--suave-e); max-width: 66ch; }
+.faq summary::after { width: 28px !important; height: 28px !important; font-size: 19px !important; flex-shrink: 0; }
 
 .final {
-  margin-top: clamp(64px, 8vw, 104px);
+  margin-top: clamp(44px, 5vw, 64px);
   border-radius: var(--radius-bento);
   border: 1px solid var(--border-glow-ouro);
   background: var(--surface-glass);
@@ -2095,6 +2104,35 @@ button, input, select { font: inherit; color: inherit; }
 .tradutor dl > div { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 14px; padding: 13px 0; border-top: 1px solid var(--ln-forte); }
 .tradutor dt { font: 700 14.5px/1.4 var(--sans); color: var(--navy); }
 .tradutor dd { margin: 0; font-size: 14.5px; line-height: 1.55; color: var(--suave); }
+
+/* ===== Captura de lead do diagnóstico ===== */
+.gargalos-lista.trancado { border-style: dashed; }
+.lead-form { display: grid; gap: 10px; }
+.lead-form-tit { font: 700 14.5px/1.35 var(--sans); color: var(--tinta); margin: 0; }
+.lead-form.escuro .lead-form-tit { color: var(--gelo); }
+.lead-form .lead-mini, .lead-form .lead-mini-escuro { margin: 0; }
+.lead-empresa {
+  width: 100%; min-height: 42px; padding: 9px 12px; border-radius: 10px; border: 1px solid var(--ln-forte);
+  background: #fff; font: 500 14.5px var(--sans); color: var(--tinta);
+}
+.lead-consent { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 9px; align-items: start; font-size: 12.5px; line-height: 1.45; color: var(--suave); cursor: pointer; }
+.lead-consent input { width: 16px; height: 16px; margin: 2px 0 0; accent-color: var(--azul); }
+.lead-consent a { color: inherit; text-decoration: underline; }
+.lead-form.escuro .lead-consent { color: rgba(237, 241, 242, .72); }
+.lead-erro { min-height: 0; margin: 0; font: 600 13px/1.4 var(--sans); color: #B3412E; }
+.lead-erro:empty { display: none; }
+.lead-form.escuro .lead-erro { color: #F2A58E; }
+.lead-form .invalido { border-color: #B3412E !important; box-shadow: 0 0 0 3px rgba(179, 65, 46, .14); }
+.lead-form button[disabled] { opacity: .65; cursor: progress; }
+.lead-ok {
+  border-radius: 18px; padding: 18px 18px 16px; background: rgba(47, 111, 159, .08);
+  border: 1px solid rgba(47, 111, 159, .28); display: grid; gap: 10px; font-size: 14.5px; line-height: 1.55; color: var(--tinta);
+}
+.lead-ok.escuro { background: rgba(237, 241, 242, .07); border-color: rgba(237, 241, 242, .2); color: var(--gelo); }
+.lead-ok b.tit { font: 700 16.5px/1.3 var(--sans); }
+.lead-ok .acoes-ok { display: flex; flex-wrap: wrap; gap: 8px; }
+.lead-ok small { color: var(--suave); font-size: 12.5px; }
+.lead-ok.escuro small { color: rgba(237, 241, 242, .65); }
 
 /* ===== Ecossistema com 3 cards ===== */
 .parceiros-grid.tres { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -2483,7 +2521,8 @@ button, input, select { font: inherit; color: inherit; }
   <div class="wrap">
     <div class="sec-cab reveal">
       <span class="eyebrow">06 · Diagnóstico grátis</span>
-      <h2>Comece o diagnóstico <em>agora</em>, em 2 minutos.</h2>
+      <h2>Responda em 2 minutos e receba o diagnóstico <em>no seu WhatsApp.</em></h2>
+      <p class="lead">Marque o que já funciona na sua empresa. Você vê a sua pontuação na hora e recebe no WhatsApp o plano com as prioridades, em ordem do que mais custa dinheiro, e o primeiro passo de cada uma.</p>
     </div>
 
     <div class="abas" role="tablist" aria-label="Ferramentas de diagnóstico">
@@ -2521,16 +2560,22 @@ button, input, select { font: inherit; color: inherit; }
           <div class="medidor" id="medidor"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
           <p class="nivel" id="nivel">Operação de Risco</p>
           <p class="txt" id="nivel-txt">Suas vendas dependem de sorte ou do talento individual de uma ou duas pessoas. Se o seu melhor vendedor sair hoje, o faturamento trava.</p>
-          <div class="gargalos-lista" id="gargalos-box">
-            <strong>Prioridades identificadas:</strong>
-            <span id="gargalos-txt">Todos os 9 pontos pendentes. Comece pelo tempo de resposta e pela triagem.</span>
+          <div class="gargalos-lista trancado" id="gargalos-box">
+            <strong>🔒 Seu plano de ação</strong>
+            <span id="gargalos-txt">9 pontos para melhorar, em ordem de prioridade, com o primeiro passo de cada um.</span>
           </div>
-          <div class="lead-mini">
-            <input type="text" id="diag-nome" placeholder="Seu nome (opcional)" autocomplete="name">
-            <input type="tel" id="diag-wa-lead" placeholder="Seu WhatsApp (opcional)" autocomplete="tel">
-          </div>
-          <a class="btn navy" id="diag-whats" href="#" target="_blank" rel="noopener"><span>Enviar resultado e agendar</span><span class="seta" aria-hidden="true">→</span></a>
-          <div class="sync-pill" id="diag-status" aria-live="polite"></div>
+          <form class="lead-form" id="diag-form" novalidate>
+            <p class="lead-form-tit">Para onde envio o seu diagnóstico?</p>
+            <div class="lead-mini">
+              <input type="text" id="diag-nome" placeholder="Seu nome *" autocomplete="name" required>
+              <input type="tel" id="diag-wa-lead" placeholder="WhatsApp com DDD *" autocomplete="tel" inputmode="tel" required>
+            </div>
+            <input type="text" id="diag-empresa" class="lead-empresa" placeholder="Empresa (opcional)" autocomplete="organization">
+            <label class="lead-consent"><input type="checkbox" id="diag-ok" required><span>Aceito receber o diagnóstico e contatos da Danny pelo WhatsApp. Posso sair quando quiser. <a href="politica-de-privacidade/" target="_blank" rel="noopener">Privacidade</a></span></label>
+            <p class="lead-erro" id="diag-erro" role="alert"></p>
+            <button class="btn navy" type="submit" id="diag-enviar"><span>Receber meu diagnóstico no WhatsApp</span><span class="seta" aria-hidden="true">→</span></button>
+          </form>
+          <div class="lead-ok" id="diag-ok-box" hidden></div>
           <button class="btn linha" type="button" data-modal="diagnostico"><span>Ver checklist completo</span><span class="seta" aria-hidden="true">↗</span></button>
         </aside>
       </div>
@@ -2553,12 +2598,17 @@ button, input, select { font: inherit; color: inherit; }
             <div><span>Diferença por mês</span><b id="r-mes">R$ 0</b></div>
             <div><span>Cada cliente a mais em 100 vale</span><b id="r-ponto">R$ 0/mês</b></div>
           </div>
-          <div class="lead-mini-escuro">
-            <input type="text" id="calc-nome" placeholder="Seu nome (opcional)" autocomplete="name">
-            <input type="tel" id="calc-wa-lead" placeholder="Seu WhatsApp (opcional)" autocomplete="tel">
-          </div>
-          <a class="btn ouro" id="calc-whats" href="#" target="_blank" rel="noopener"><span>Quero recuperar essa receita</span><span class="seta" aria-hidden="true">→</span></a>
-          <div class="sync-pill" id="calc-status" aria-live="polite"></div>
+          <form class="lead-form escuro" id="calc-form" novalidate>
+            <p class="lead-form-tit">Receba no WhatsApp o plano para recuperar essa receita</p>
+            <div class="lead-mini-escuro">
+              <input type="text" id="calc-nome" placeholder="Seu nome *" autocomplete="name" required>
+              <input type="tel" id="calc-wa-lead" placeholder="WhatsApp com DDD *" autocomplete="tel" inputmode="tel" required>
+            </div>
+            <label class="lead-consent"><input type="checkbox" id="calc-ok" required><span>Aceito receber a simulação e contatos da Danny pelo WhatsApp. <a href="politica-de-privacidade/" target="_blank" rel="noopener">Privacidade</a></span></label>
+            <p class="lead-erro" id="calc-erro" role="alert"></p>
+            <button class="btn ouro" type="submit" id="calc-enviar"><span>Receber o plano no WhatsApp</span><span class="seta" aria-hidden="true">→</span></button>
+          </form>
+          <div class="lead-ok escuro" id="calc-ok-box" hidden></div>
           <p class="nota">Cálculo simples: interessados × % que compra × valor médio. Não considera ciclo de venda, sazonalidade nem margem.</p>
         </div>
       </div>
@@ -2637,19 +2687,16 @@ button, input, select { font: inherit; color: inherit; }
         <figcaption class="leg"><span>Danny Araújo · Vendas & Tecnologia</span><span>Natal/RN</span></figcaption>
       </figure>
       <div class="bio reveal">
-        <p><strong>Há mais de 15 anos eu organizo vendas</strong> em empresas de saúde, energia, tecnologia e serviços, liderando times de até 33 pessoas. Vi de perto o que trava o crescimento: não é falta de esforço, é falta de método e de ferramenta.</p>
+        <p><strong>Há mais de 15 anos eu organizo vendas</strong> em empresas de saúde, energia, tecnologia e serviços, liderando times de até 150 pessoas. Vi de perto o que trava o crescimento: não é falta de esforço, é falta de método e de ferramenta.</p>
         <p>Por isso juntei as duas coisas. Sou certificada em <strong>análise de dados pelo Google</strong>, estudo Sistemas para Internet no IFRN e construo eu mesma os sistemas, painéis e assistentes de inteligência artificial que o processo precisa.</p>
         <p>Hoje também sou <strong>Diretora Comercial da Chama Cine</strong>, produtora de audiovisual e performance. Quando o seu projeto precisa de vídeo, anúncios ou site, a equipe da Chama entra junto.</p>
         <p>Sou pessoa com deficiência (PCD), moro em Natal/RN e escrevo a newsletter <strong>A Arquitetura do Acaso</strong>, sobre gestão e negócios para quem constrói sorte com método.</p>
-        <ol class="obras">
-          <li><span class="nivel-badge">2026 · hoje</span><div><strong>Chama Cine — Diretora Comercial</strong><span class="desc-exp">Growth e expansão B2B de agência de audiovisual, tecnologia e performance</span></div></li>
-          <li><span class="nivel-badge">2026 · hoje</span><div><strong>Sistemas Online & Arquitetura Web — Desenvolvedora</strong><span class="desc-exp">Criação de aplicações web, painéis de KPIs, automações e sistemas sob medida</span></div></li>
-          <li><span class="nivel-badge">2026 · hoje</span><div><strong>IA Aplicada & Engenharia de Prompt — Consultora</strong><span class="desc-exp">Prompts mestres, agentes de atendimento, prospecção B2B e propostas automatizadas</span></div></li>
-          <li><span class="nivel-badge">2026</span><div><strong>AmorSaúde - Unidade Natal/RN, Setor de Odontologia — Liderança Comercial e Operacional</strong><span class="desc-exp">(Re)estruturação comercial, processos e gestão de equipe na odontologia</span></div></li>
-          <li><span class="nivel-badge">2022 – 2026</span><div><strong>Facile Soluções em Energia — Consultoria Comercial</strong><span class="desc-exp">Diagnóstico e soluções de eficiência energética para clientes B2B e B2C</span></div></li>
-          <li><span class="nivel-badge">2018 – 2024</span><div><strong>Webnize — Coproprietária e Operação Digital</strong><span class="desc-exp">Estruturação digital, posicionamento e produtos para pequenos negócios</span></div></li>
-          <li><span class="nivel-badge">2011 – 2018</span><div><strong>Televi Mobile, Groupon, Boavista e MDA — Operações Comerciais</strong><span class="desc-exp">Gestão comercial, retenção, relacionamento e expansão de receita</span></div></li>
-        </ol>
+        <div class="bio-numeros">
+          <div><b>+15</b><span>anos organizando vendas</span></div>
+          <div><b>150</b><span>pessoas no maior time que liderei</span></div>
+          <div><b>2 em 1</b><span>estratégia de vendas e tecnologia</span></div>
+        </div>
+        <a class="btn ouro" href="#agenda" style="margin-top:22px"><span>Conversar com a Danny</span><span class="seta" aria-hidden="true">→</span></a>
       </div>
     </div>
   </div>
@@ -2792,12 +2839,15 @@ button, input, select { font: inherit; color: inherit; }
 <!-- ===================== FAQ & CONTATO ===================== -->
 <section class="band navy sec" id="contato">
   <div class="wrap">
+    <div class="faq-layout">
     <div class="sec-cab reveal">
       <span class="eyebrow">Perguntas frequentes</span>
       <h2>Antes de <em>agendar.</em></h2>
+      <p class="lead">Toque na pergunta para ver a resposta. Não achou a sua? Pergunte direto no WhatsApp.</p>
+      <a class="btn linha" data-wa="Oi Danny! Tenho uma dúvida antes de agendar:" href="https://wa.me/5584974005115" target="_blank" rel="noopener" style="align-self:flex-start"><span>Fazer uma pergunta</span><span class="seta" aria-hidden="true">→</span></a>
     </div>
     <div class="faq">
-      <details open><summary>Preciso entender de tecnologia ou de inteligência artificial?</summary><p>Não. Eu explico tudo em linguagem simples, construo as ferramentas e treino o seu time para usar. Você só precisa conhecer o seu negócio, e isso você já conhece.</p></details>
+      <details><summary>Preciso entender de tecnologia ou de inteligência artificial?</summary><p>Não. Eu explico tudo em linguagem simples, construo as ferramentas e treino o seu time para usar. Você só precisa conhecer o seu negócio, e isso você já conhece.</p></details>
       <details><summary>O que faz uma consultoria comercial?</summary><p>Ela audita como a sua empresa atrai, atende e fecha clientes, redesenha os processos que travam a conversão, treina o time e implanta indicadores e sistemas para que as vendas deixem de depender de sorte ou de uma única pessoa.</p></details>
       <details><summary>Como funciona o sistema sob medida?</summary><p>Eu crio um sistema para o jeito da sua empresa trabalhar: cadastro de clientes, acompanhamento das vendas, painel de resultados e avisos automáticos. Funciona no computador e no celular e substitui as planilhas soltas.</p></details>
       <details><summary>Como a inteligência artificial entra nas minhas vendas?</summary><p>Eu ensino a IA a trabalhar como a sua empresa: com os seus preços, o seu jeito de falar e as suas regras. Ela responde clientes, filtra quem tem perfil, monta propostas e lembra o time de voltar a falar com quem não fechou. Uma pessoa do time sempre revisa o que vai para o cliente.</p></details>
@@ -2807,6 +2857,7 @@ button, input, select { font: inherit; color: inherit; }
       <details><summary>Como funciona o primeiro diagnóstico?</summary><p>É uma conversa gratuita e sem compromisso, de cerca de 45 minutos, para entender como a sua empresa vende hoje, onde as vendas estão escapando e se faz sentido trabalharmos juntos.</p></details>
       <details><summary>Preciso ter um CRM para começar?</summary><p>Não. Parte do trabalho é definir quais dados a operação precisa registrar e escolher — ou desenvolver sob medida — a ferramenta certa para o tamanho da empresa.</p></details>
       <details><summary>Qual é o investimento?</summary><p>A conversa de diagnóstico é gratuita. O valor do projeto depende do tamanho da empresa e do que ela precisa (organização das vendas, inteligência artificial, sistema sob medida ou a combinação deles) e é apresentado depois do diagnóstico.</p></details>
+    </div>
     </div>
 
     <div class="final reveal">
@@ -3214,38 +3265,100 @@ button, input, select { font: inherit; color: inherit; }
     $('nivel').textContent = niveis[f][0];
     $('nivel-txt').textContent = niveis[f][1];
     $('gargalos-txt').textContent = faltam.length
-      ? faltam.slice(0, 4).join(' · ') + (faltam.length > 4 ? ' (+' + (faltam.length - 4) + ')' : '')
-      : 'Todos os 9 pilares ativos! Pronto para escalar com previsibilidade.';
-
-    var nomeLead = ($('diag-nome').value || '').trim();
-    $('diag-whats').href = wa(
-      'Oi Danny!' + (nomeLead ? ' Sou ' + nomeLead + '.' : '') +
-      ' Fiz o autodiagnóstico no site e tirei ' + p + '/9 (' + niveis[f][0] + ').' +
-      (faltam.length ? ' Ainda não temos: ' + faltam.join(', ') + '.' : '') +
-      ' Quero agendar o diagnóstico comercial.'
-    );
+      ? faltam.length + (faltam.length === 1 ? ' ponto para melhorar' : ' pontos para melhorar') + ', em ordem de prioridade, com o primeiro passo de cada um.'
+      : 'Os 9 pontos estão ativos. Você recebe as sugestões para ganhar escala.';
   }
   crits.forEach(function (c) { c.addEventListener('change', atualizaDiag); });
-  $('diag-nome').addEventListener('input', atualizaDiag);
   atualizaDiag();
 
-  $('diag-whats').addEventListener('click', function () {
-    var waLead = ($('diag-wa-lead').value || '').replace(/\D/g, '') || CONFIG.whatsapp;
-    var nomeLead = ($('diag-nome').value || '').trim();
-    trackEvento('autodiagnostico_enviado', { pontuacao: estadoDiag.p, nivel: estadoDiag.nivel });
-    salvarNoSupabase({
+  /* ---------- FAQ: uma pergunta aberta por vez ---------- */
+  document.querySelectorAll('.faq details').forEach(function (d) {
+    d.addEventListener('toggle', function () {
+      if (!d.open) return;
+      document.querySelectorAll('.faq details[open]').forEach(function (o) { if (o !== d) o.open = false; });
+    });
+  });
+
+  /* ---------- Captura de lead: nome e WhatsApp obrigatórios ---------- */
+  function normalizaWhats(v) {
+    var d = String(v || '').replace(/\D/g, '');
+    if (d.length === 10 || d.length === 11) d = '55' + d;
+    if (!/^55\d{10,11}$/.test(d)) return '';
+    return d;
+  }
+  function formataWhats(d) {
+    var n = d.slice(2);
+    return '(' + n.slice(0, 2) + ') ' + n.slice(2, n.length - 4) + '-' + n.slice(-4);
+  }
+  function validaLead(prefixo) {
+    var nome = $(prefixo + '-nome'), tel = $(prefixo + '-wa-lead'), ok = $(prefixo + '-ok');
+    [nome, tel].forEach(function (i) { i.classList.remove('invalido'); });
+    var erro = '';
+    var whats = normalizaWhats(tel.value);
+    if (nome.value.trim().length < 2) { nome.classList.add('invalido'); erro = 'Digite o seu nome.'; }
+    else if (!whats) { tel.classList.add('invalido'); erro = 'Digite um WhatsApp válido com DDD, por exemplo (84) 99999-9999.'; }
+    else if (!ok.checked) { erro = 'Marque a autorização para eu enviar pelo WhatsApp.'; }
+    $(prefixo + '-erro').textContent = erro;
+    return erro ? null : { nome: nome.value.trim(), whatsapp: whats };
+  }
+  function mostraSucesso(prefixo, lead, res, msgFallback) {
+    var box = $(prefixo + '-ok-box');
+    var enviado = res && res.ok && res.whatsapp_enviado;
+    var primeiro = lead.nome.split(' ')[0];
+    box.innerHTML =
+      '<b class="tit">' + (enviado ? 'Pronto, ' + escapeHtml(primeiro) + '! Confira o seu WhatsApp.' : 'Recebi, ' + escapeHtml(primeiro) + '!') + '</b>' +
+      '<span>' + (enviado
+        ? 'Enviei o diagnóstico para <b>' + formataWhats(lead.whatsapp) + '</b>. Se quiser, já escolha um horário para a conversa gratuita de 45 minutos.'
+        : 'Vou enviar o seu diagnóstico para <b>' + formataWhats(lead.whatsapp) + '</b> em breve. Para receber agora, toque em "Receber agora".') + '</span>' +
+      '<div class="acoes-ok">' +
+        '<a class="btn ouro" href="#agenda"><span>Agendar conversa gratuita</span><span class="seta" aria-hidden="true">→</span></a>' +
+        (enviado ? '' : '<a class="btn linha" href="' + wa(msgFallback) + '" target="_blank" rel="noopener"><span>Receber agora</span></a>') +
+      '</div>' +
+      '<small>Número errado? <a href="#" data-refazer="' + prefixo + '">Corrigir</a></small>';
+    $(prefixo + '-form').hidden = true;
+    box.hidden = false;
+    if ($('r-nome') && !$('r-nome').value) $('r-nome').value = lead.nome;
+    if ($('r-whats') && !$('r-whats').value) $('r-whats').value = formataWhats(lead.whatsapp);
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('[data-refazer]');
+    if (!a) return;
+    e.preventDefault();
+    var p = a.getAttribute('data-refazer');
+    $(p + '-ok-box').hidden = true;
+    $(p + '-form').hidden = false;
+    $(p + '-wa-lead').focus();
+  });
+  function enviaLead(prefixo, payload, msgFallback, evento) {
+    var lead = validaLead(prefixo);
+    if (!lead) return;
+    var bt = $(prefixo + '-enviar'), txt = bt.querySelector('span');
+    var original = txt.textContent;
+    bt.disabled = true; txt.textContent = 'Enviando...';
+    trackEvento(evento, {});
+    salvarNoSupabase(Object.assign({
+      nome: lead.nome,
+      whatsapp: lead.whatsapp,
+      empresa: ($(prefixo + '-empresa') && $(prefixo + '-empresa').value.trim()) || null,
+      consentimento: true,
+      pagina: location.href.split('#')[0]
+    }, payload)).then(function (res) {
+      bt.disabled = false; txt.textContent = original;
+      mostraSucesso(prefixo, lead, res, 'Oi Danny! Sou ' + lead.nome + '. ' + msgFallback);
+    });
+  }
+
+  $('diag-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    enviaLead('diag', {
       tipo: 'autodiagnostico',
-      nome: nomeLead || null,
-      whatsapp: waLead,
       pontuacao: estadoDiag.p,
       nivel_maturidade: estadoDiag.nivel,
       criterios_ativos: estadoDiag.ativos,
       criterios_pendentes: estadoDiag.faltam
-    }).then(function (res) {
-      if (res && res.ok) {
-        $('diag-status').textContent = 'Diagnóstico salvo no sistema. Abrindo WhatsApp...';
-      }
-    });
+    }, 'Fiz o autodiagnóstico no site e tirei ' + estadoDiag.p + '/9 (' + estadoDiag.nivel + ').' +
+       (estadoDiag.faltam.length ? ' Ainda não temos: ' + estadoDiag.faltam.join(', ') + '.' : '') +
+       ' Quero receber o meu diagnóstico.', 'autodiagnostico_enviado');
   });
 
   var cl = $('c-leads'), ct = $('c-ticket'), ca = $('c-atual'), cm = $('c-meta');
@@ -3265,36 +3378,23 @@ button, input, select { font: inherit; color: inherit; }
     $('r-ano').textContent = brl(dif * 12);
     $('r-ponto').textContent = brl(L * 0.01 * T) + '/mês';
 
-    var nomeLead = ($('calc-nome').value || '').trim();
-    $('calc-whats').href = wa(
-      'Oi Danny!' + (nomeLead ? ' Sou ' + nomeLead + '.' : '') +
-      ' Usei a calculadora do site: ' + L + ' leads/mês, ticket de ' + brl(T) +
-      ' e conversão de ' + A + '%. Chegar a ' + M + '% representaria ' + brl(dif * 12) +
-      ' por ano. Quero agendar o diagnóstico.'
-    );
   }
   [cl, ct, ca, cm].forEach(function (i) { i.addEventListener('input', atualizaCalc); });
-  $('calc-nome').addEventListener('input', atualizaCalc);
   atualizaCalc();
 
-  $('calc-whats').addEventListener('click', function () {
-    var waLead = ($('calc-wa-lead').value || '').replace(/\D/g, '') || CONFIG.whatsapp;
-    var nomeLead = ($('calc-nome').value || '').trim();
-    trackEvento('calculadora_enviada', { receita_ano: estadoCalc.difAno });
-    salvarNoSupabase({
+  $('calc-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var s = estadoCalc;
+    enviaLead('calc', {
       tipo: 'calculadora',
-      nome: nomeLead || null,
-      whatsapp: waLead,
-      leads_mes: estadoCalc.L,
-      ticket_medio: estadoCalc.T,
-      conversao_atual: estadoCalc.A,
-      conversao_meta: estadoCalc.M,
-      receita_mesa_ano: estadoCalc.difAno
-    }).then(function (res) {
-      if (res && res.ok) {
-        $('calc-status').textContent = 'Simulação salva no sistema. Abrindo WhatsApp...';
-      }
-    });
+      leads_mes: s.L,
+      ticket_medio: s.T,
+      conversao_atual: s.A,
+      conversao_meta: s.M,
+      receita_mesa_ano: s.difAno
+    }, 'Usei a calculadora do site: ' + s.L + ' interessados/mês, venda média de ' + brl(s.T) +
+       ' e ' + s.A + '% de fechamento. Chegar a ' + s.M + '% representaria ' + brl(s.difAno) +
+       ' por ano. Quero receber o plano.', 'calculadora_enviada');
   });
 
   var porDia = {

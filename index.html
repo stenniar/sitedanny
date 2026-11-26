@@ -3166,11 +3166,15 @@ button, input, select { font: inherit; color: inherit; }
   function iso(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
   var hoje = new Date(); hoje.setHours(0, 0, 0, 0);
   var limite = new Date(hoje); limite.setDate(limite.getDate() + 21);
-  var minimo = new Date(Date.now() + 2 * 3600e3);
+  var minimo = new Date(Date.now() + 24 * 3600e3);
   function segunda(d) { var x = new Date(d); x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); return x; }
   var semIni = segunda(hoje), semZero = new Date(semIni), escolhido = null, elDias = $('dias');
+  // Horários livres vindos da função "agenda" do Supabase (Google Agenda + reservas + bloqueios).
+  // Enquanto não chegam, ou se a função estiver fora do ar, vale a grade padrão abaixo.
+  var livresServidor = null;
 
   function slotsDe(d) {
+    if (livresServidor) return (livresServidor[iso(d)] || []).slice();
     if (bloqueados.indexOf(iso(d)) > -1 || d < hoje || d > limite) return [];
     return (porDia[d.getDay()] || []).filter(function (h) {
       var chaveSlot = iso(d) + ' ' + h;
@@ -3218,28 +3222,47 @@ button, input, select { font: inherit; color: inherit; }
   $('sem-prox').addEventListener('click', function () { semIni.setDate(semIni.getDate() + 7); desenhaAgenda(); });
 
   var baseUrl = supabaseBaseUrl();
-  if (baseUrl && CONFIG.supabaseAnonKey) {
-    fetch(baseUrl + '/rest/v1/agenda_bloqueios?select=slot_chave', {
-      headers: {
-        'apikey': CONFIG.supabaseAnonKey,
-        'Authorization': 'Bearer ' + CONFIG.supabaseAnonKey
-      }
-    })
-      .then(function (r) { return r.json(); })
-      .then(function (rows) {
-        if (Array.isArray(rows) && rows.length) {
-          var adicionou = false;
-          rows.forEach(function (item) {
-            if (item.slot_chave && bloqueados.indexOf(item.slot_chave) < 0) {
-              bloqueados.push(item.slot_chave);
-              adicionou = true;
-            }
-          });
-          if (adicionou) desenhaAgenda();
-        }
-      })
-      .catch(function () {});
+  function headersSupabase() {
+    return { 'Content-Type': 'application/json', 'apikey': CONFIG.supabaseAnonKey, 'Authorization': 'Bearer ' + CONFIG.supabaseAnonKey };
   }
+  function carregaHorarios() {
+    if (!baseUrl || !CONFIG.supabaseAnonKey) return;
+    fetch(baseUrl + '/functions/v1/agenda', { headers: headersSupabase() })
+      .then(function (r) { if (!r.ok) throw new Error('agenda ' + r.status); return r.json(); })
+      .then(function (data) {
+        if (!data || !data.livres) return;
+        livresServidor = data.livres;
+        if (escolhido && slotsDe(new Date(escolhido.chave.slice(0, 10) + 'T12:00:00')).indexOf(escolhido.chave.slice(11)) < 0) {
+          escolhido = null;
+          atualizaForm();
+        }
+        semIni = segunda(hoje);
+        for (var k = 0; k < 6 && !temVaga(semIni); k++) semIni.setDate(semIni.getDate() + 7);
+        desenhaAgenda();
+      })
+      .catch(function () { /* sem a função, a agenda usa a grade padrão e a Danny confirma pelo WhatsApp */ });
+  }
+  function reservarHorario(dados) {
+    if (!baseUrl || !CONFIG.supabaseAnonKey) return Promise.resolve({ ok: false, status: 0 });
+    return fetch(baseUrl + '/functions/v1/agenda', { method: 'POST', headers: headersSupabase(), body: JSON.stringify(dados) })
+      .then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (j) { return { ok: !!(r.ok && j.ok), status: r.status }; });
+      })
+      .catch(function () { return { ok: false, status: 0 }; });
+  }
+  function mostraConfirmacao(texto, link) {
+    $('r-aviso').textContent = texto;
+    var a = $('r-wa-link');
+    if (!a) {
+      a = document.createElement('a');
+      a.id = 'r-wa-link'; a.className = 'btn navy'; a.target = '_blank'; a.rel = 'noopener';
+      a.style.marginTop = '12px';
+      a.innerHTML = '<span>Confirmar pelo WhatsApp</span><span class="seta" aria-hidden="true">→</span>';
+      $('r-aviso').insertAdjacentElement('afterend', a);
+    }
+    a.href = link;
+  }
+  carregaHorarios();
 
   var nome = $('r-nome'), whatsLead = $('r-whats'), ok = $('r-ok');
   function atualizaForm() {
@@ -3273,17 +3296,34 @@ button, input, select { font: inherit; color: inherit; }
       desafio_principal: desafio
     });
 
-    if (bloqueados.indexOf(escolhido.chave) < 0) {
-      bloqueados.push(escolhido.chave);
-    }
-
-    var a = document.createElement('a');
-    a.href = wa(msg); a.target = '_blank'; a.rel = 'noopener';
-    document.body.appendChild(a); a.click(); a.remove();
-    $('r-aviso').textContent = 'Horário reservado no sistema (' + escolhido.rot + ') e WhatsApp aberto para confirmação.';
-    escolhido = null;
-    atualizaForm();
-    desenhaAgenda();
+    var reserva = escolhido, linkWa = wa(msg);
+    ok.disabled = true;
+    $('r-aviso').textContent = 'Reservando o horário...';
+    reservarHorario({
+      slot_chave: reserva.chave,
+      nome: nome.value.trim(),
+      whatsapp: waNum,
+      empresa: emp || null,
+      desafio: desafio,
+      origem: ORIGEM || null
+    }).then(function (res) {
+      var dia = reserva.chave.slice(0, 10), hora = reserva.chave.slice(11);
+      if (res.ok) {
+        if (livresServidor && livresServidor[dia]) {
+          livresServidor[dia] = livresServidor[dia].filter(function (h) { return h !== hora; });
+        }
+        if (bloqueados.indexOf(reserva.chave) < 0) bloqueados.push(reserva.chave);
+        mostraConfirmacao('Horário reservado: ' + reserva.rot + '. Ele já está na agenda da Danny. Toque abaixo para confirmar pelo WhatsApp.', linkWa);
+      } else if (res.status === 409) {
+        $('r-aviso').textContent = 'Esse horário acabou de ser ocupado. Escolha outro, por favor.';
+        carregaHorarios();
+      } else {
+        mostraConfirmacao('Não consegui registrar o horário automaticamente. Envie a mensagem pelo WhatsApp e a Danny confirma.', linkWa);
+      }
+      escolhido = null;
+      atualizaForm();
+      desenhaAgenda();
+    });
   });
   desenhaAgenda();
 
